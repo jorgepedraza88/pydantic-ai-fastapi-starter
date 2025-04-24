@@ -1,0 +1,31 @@
+[tool.ruff]
+# Mismo objetivo de compatibilidad que Black
+target-version = "py313"
+line-length = 88
+
+# Habilitar reglas de linting
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+]
+
+# Ignorar algunas reglas
+ignore = [
+    "E501",  # líneas demasiado largas
+]
+
+# Permite autofix para todas las reglas seleccionadas
+fix = true
+unsafe-fixes = false
+
+# Permitir versiones no utilizadas (noqa)
+respect-noqa = true
+
+[tool.ruff.format]
+# Como Black
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
