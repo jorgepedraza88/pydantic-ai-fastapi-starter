@@ -1,8 +1,9 @@
 """Configuración de la aplicación FastAPI con Pydantic AI."""
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-# from app.api.routes import router - Añadir más adelante para crear rutas de los agentes
+from app.api.routes import router
 from app.core.config import settings
 
 # Inicializar la aplicación FastAPI
@@ -12,8 +13,17 @@ app = FastAPI(
     version="0.1.0",
 )
 
+# Configurar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # En producción, especifica los orígenes permitidos
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Incluir los endpoints
-# app.include_router(router, prefix=settings.API_V1_STR)
+app.include_router(router, prefix=settings.API_V1_STR)
 
 
 # Ruta de prueba básica

@@ -1,3 +1,5 @@
+"""Routes for the FastAPI application."""
+
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.agents.basic_agent import BasicAgent
@@ -10,6 +12,17 @@ router = APIRouter()
 def get_agent():
     """Función para obtener una instancia del agente de IA."""
     return BasicAgent()
+
+
+# request:
+# AgentRequest: FastAPI parseará automáticamente el cuerpo de la solicitud al modelo AgentRequest
+
+# response_model=AgentResponse:
+# Especifica que la respuesta seguirá la estructura definida en AgentResponse
+
+# agent:
+#  BasicAgent = Depends(get_agent):
+#  FastAPI invocará get_agent() y pasará su resultado como el parámetro agent
 
 
 @router.post("/agent/query", response_model=AgentResponse)
