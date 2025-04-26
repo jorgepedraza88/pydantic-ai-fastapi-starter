@@ -31,7 +31,7 @@ async def query_agent(request: AgentRequest, agent: BasicAgent = Depends(get_age
     Endpoint para consultar al agente de IA
     """
     try:
-        result = await agent.process_query(query=request.query, context=request.context)
+        result = await agent.process_query(query=request.query)
         return result
     except Exception as e:
         raise HTTPException(

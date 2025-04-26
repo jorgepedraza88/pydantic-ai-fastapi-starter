@@ -11,16 +11,14 @@ class AgentRequest(BaseModel):
     """Esquema para solicitudes al agente."""
 
     query: str = Field(..., description="Consulta o pregunta para el agente")
-    context: Optional[Dict] = Field(
-        default=None, description="Contexto adicional para la consulta"
-    )
 
 
 class TokenUsage(BaseModel):
     """Estructura para el uso de tokens."""
 
-    prompt_tokens: int = Field(0, description="Tokens utilizados en el prompt")
-    completion_tokens: int = Field(0, description="Tokens utilizados en la respuesta")
+    requests: int = Field(0, description="Numero de solicitudes realizadas")
+    request_tokens: int = Field(0, description="Tokens utilizados en el input")
+    response_tokens: int = Field(0, description="Tokens utilizados en la respuesta")
     total_tokens: int = Field(0, description="Total de tokens utilizados")
 
 
