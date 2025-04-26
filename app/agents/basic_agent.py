@@ -41,13 +41,15 @@ class BasicAgent:
 
         # Ejecutar la consulta
         result = await self.agent.run(message)
-        usage = result.usage()
+
+        # Obtener el uso de tokens
+        usage = result.usage().__dict__
 
         # TODO: Ver como puedo sacar los datos y mas cosas de la respuestas
         # Crear y devolver la respuesta
         return AgentResponse(
             response=result.output,
-            usage=usage.__dict__,  # En un caso real, esto podría venir del modelo
+            usage=usage,
             sources=[],  # En un caso real, podrías añadir fuentes
             metadata={"model": "gpt-4o-mini"},
         )
