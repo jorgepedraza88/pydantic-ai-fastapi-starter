@@ -1,4 +1,4 @@
-"""Basic OpenAI agent"""
+"""Basic Ollama agent"""
 
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIModel
