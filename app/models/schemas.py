@@ -14,14 +14,19 @@ class AgentRequest(BaseModel):
 
     Attributes:
         query: The text query or question sent to the agent for processing.
+        llm_provider: The specific AI model or agent to be used for processing the query
 
     Example:
         ```python
-        request = AgentRequest(query="What is the capital of France?")
+        request = AgentRequest(query="What is the capital of France?", llm="openai")
         ```
     """
 
     query: str = Field(..., description="Query or question for the agent")
+    llm_provider: Optional[str] = Field(
+        default="openai",
+        description="Agent to be used for processing the query",
+    )
 
 
 class TokenUsage(BaseModel):

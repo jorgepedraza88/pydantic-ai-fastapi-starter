@@ -18,6 +18,8 @@ class BasicGeminiAgent:
 
     Attributes:
         model: The AI model to use for generating responses.
+        model_settings: Settings for the AI model, including token limits
+            and temperature settings.
         agent: The agent instance that handles message processing.
     """
 
@@ -30,15 +32,19 @@ class BasicGeminiAgent:
         """
         # Use the API key from environment variables
         self.model = GeminiModel(
-            "gemini-1.5-turbo",
+            "gemini-2.0-flash",
             provider=GoogleGLAProvider(api_key=settings.GEMINI_API_KEY),
         )
 
+        # This does not tell the model to use 30 tokens, but rather that for the response once it reaches 30 tokens
+        # self.model_settings = ModelSettings(max_tokens=30)
+
         self.agent = Agent(
-            self.model,
-            system_prompt="You are a helpful and professional assistant.",
+            model=self.model,
+            system_prompt="You are a helpful and professional assistant",
             temperature=0.7,
             name="Gemini Basic Agent",
+            retries=2,
         )
 
     async def process_query(self, query: str) -> AgentResponse:
@@ -68,5 +74,5 @@ class BasicGeminiAgent:
         return AgentResponse(
             response=result.output,
             usage=usage,
-            metadata={"model": "gemini-1.5-turbo"},
+            metadata={"model": "gemini-2.0-flash"},
         )
