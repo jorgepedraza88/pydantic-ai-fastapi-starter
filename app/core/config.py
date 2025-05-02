@@ -11,7 +11,7 @@ load_dotenv()
 class Settings:  # pylint: disable=too-few-public-methods
     """App configuration"""
 
-    PROJECT_NAME: str = "Mi Proyecto FastAPI con Pydantic AI"
+    PROJECT_NAME: str = "Pydantic AI + FastAPI Agents Starter Kit"
     API_V1_STR: str = "/api/v1"
 
     # Configuración para tu modelo/agente de IA
