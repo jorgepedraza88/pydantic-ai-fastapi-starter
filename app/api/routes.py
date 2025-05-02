@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from app.agents.gemini_agent import BasicGeminiAgent
 from app.agents.openai_agent import BasicAgent
+from app.agents.ollama_agent import OllamaBasicAgent
 from app.models.schemas import AgentRequest, AgentResponse
 
 router = APIRouter()
@@ -28,6 +29,8 @@ def get_agent(request: AgentRequest) -> object:
     """
     if request.llm_provider == "gemini":
         return BasicGeminiAgent()
+    elif request.llm_provider == "ollama":
+        return OllamaBasicAgent()
 
     return BasicAgent()
 
