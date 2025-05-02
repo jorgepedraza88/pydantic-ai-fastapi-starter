@@ -1,18 +1,18 @@
-"""Basic Gemini Agent"""
+"""Basic OpenAI agent"""
 
 from pydantic_ai import Agent
-from pydantic_ai.models.gemini import GeminiModel
-from pydantic_ai.providers.google_gla import GoogleGLAProvider
+from pydantic_ai.models.openai import OpenAIModel
+from pydantic_ai.providers.openai import OpenAIProvider
 
 from app.core.config import settings
 from app.models.schemas import AgentResponse
 
 
-class BasicGeminiAgent:
+class BasicAgent:
     """
-    Basic Gemini agent implementation.
+    Basic AI agent implementation.
 
-    This class provides a wrapper around the Gemini models to create
+    This class provides a wrapper around the OpenAI models to create
     a simple AI agent that can process text queries and return
     structured responses.
 
@@ -25,20 +25,20 @@ class BasicGeminiAgent:
         """
         Initialize the basic agent.
 
-        Sets up the Gemini model with the appropriate API key from settings
+        Sets up the OpenAI model with the appropriate API key from settings
         and configures the agent with default parameters.
         """
         # Use the API key from environment variables
-        self.model = GeminiModel(
-            "gemini-1.5-turbo",
-            provider=GoogleGLAProvider(api_key=settings.GEMINI_API_KEY),
+        self.model = OpenAIModel(
+            "gpt-4o-mini",
+            provider=OpenAIProvider(api_key=settings.OPENAI_API_KEY),
         )
 
         self.agent = Agent(
             self.model,
             system_prompt="You are a helpful and professional assistant.",
             temperature=0.7,
-            name="Gemini Basic Agent",
+            name="OpenAI Basic Agent",
         )
 
     async def process_query(self, query: str) -> AgentResponse:
@@ -68,5 +68,5 @@ class BasicGeminiAgent:
         return AgentResponse(
             response=result.output,
             usage=usage,
-            metadata={"model": "gemini-1.5-turbo"},
+            metadata={"model": "gpt-4o-mini"},
         )

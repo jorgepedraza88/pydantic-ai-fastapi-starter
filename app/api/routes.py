@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from app.agents.basic_agent import BasicAgent
+from app.agents.openai_agent import BasicAgent
 from app.models.schemas import AgentRequest, AgentResponse
 
 router = APIRouter()
