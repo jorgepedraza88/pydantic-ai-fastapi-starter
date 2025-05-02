@@ -14,8 +14,6 @@ class Settings:  # pylint: disable=too-few-public-methods
     PROJECT_NAME: str = "Pydantic AI + FastAPI Agents Starter Kit"
     API_V1_STR: str = "/api/v1"
 
-    # Configuración para tu modelo/agente de IA
-    AI_MODEL_KEY: str = os.getenv("AI_MODEL_KEY", "")
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
 
