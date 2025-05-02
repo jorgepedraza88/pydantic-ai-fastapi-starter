@@ -29,7 +29,7 @@ def get_agent(request: AgentRequest) -> object:
     """
     if request.llm_provider == "gemini":
         return BasicGeminiAgent()
-    elif request.llm_provider == "ollama":
+    if request.llm_provider == "ollama":
         return OllamaBasicAgent()
 
     return BasicAgent()
