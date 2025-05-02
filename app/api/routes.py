@@ -1,17 +1,21 @@
 """Routes for the FastAPI application."""
 
+from typing import Union
+
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.agents.gemini_agent import BasicGeminiAgent
-from app.agents.openai_agent import BasicAgent
 from app.agents.ollama_agent import OllamaBasicAgent
+from app.agents.openai_agent import OpenAiBasicAgent
 from app.models.schemas import AgentRequest, AgentResponse
 
 router = APIRouter()
 
 
 # Get an instance of the agent
-def get_agent(request: AgentRequest) -> object:
+def get_agent(
+    request: AgentRequest,
+) -> Union[OpenAiBasicAgent, BasicGeminiAgent, OllamaBasicAgent]:
     """Get an instance of the agent.
 
     This function creates an instance of the BasicAgent class,
@@ -32,7 +36,7 @@ def get_agent(request: AgentRequest) -> object:
     if request.llm_provider == "ollama":
         return OllamaBasicAgent()
 
-    return BasicAgent()
+    return OpenAiBasicAgent()
 
 
 # request:
@@ -47,7 +51,9 @@ def get_agent(request: AgentRequest) -> object:
 
 
 @router.post("/agent/query", response_model=AgentResponse)
-async def query_agent(request: AgentRequest, agent: BasicAgent = Depends(get_agent)):
+async def query_agent(
+    request: AgentRequest, agent: OpenAiBasicAgent = Depends(get_agent)
+):
     """Process a query using the AI agent.
 
     This endpoint receives a query request and processes it using the appropriate AI agent
@@ -64,7 +70,18 @@ async def query_agent(request: AgentRequest, agent: BasicAgent = Depends(get_age
         HTTPException: If an error occurs during query processing.
     """
     try:
-        result = await agent.process_query(query=request.query)
+        # Get conversation history from the request
+        if request.history is None:
+            request.history = []
+
+        # We can get the history from a database or any other source in this step e.g
+        # history = get_history_from_db(request.query_id)
+
+        result = await agent.process_query(query=request.query, history=request.history)
+
+        # Here we can save the result to a database or any other source e.g
+        # save_result_to_db(request.query_id, result)
+
         return result
     except Exception as e:
         raise HTTPException(
