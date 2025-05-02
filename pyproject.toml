@@ -1,3 +1,14 @@
+[project]
+name = "pydantic-ai-fastapi-starter"
+version = "0.1.0"
+description = "A FastAPI microservice for AI agent interactions using Pydantic AI"
+authors = [
+    {name = "Jorge Pedraza Mañogil", email = "jorgepedraza1988@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+
 [tool.ruff]
 # Same compatibility target as Black
 target-version = "py313"
