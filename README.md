@@ -1,5 +1,7 @@
 # Pydantic AI + FastAPI Starter
 
+![image](https://github.com/user-attachments/assets/0aada21f-bc6e-4685-9bfc-0274c3e442c9)
+
 A FastAPI microservice for AI agent interactions using Pydantic AI. This project provides a simple API wrapper around multiple LLM providers (OpenAI, Google Gemini, and Ollama) with a consistent interface.
 
 ## Features
