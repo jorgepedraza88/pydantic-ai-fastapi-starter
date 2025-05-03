@@ -35,7 +35,7 @@ class OpenAiBasicAgent(BaseAgent):
 
         self.agent = Agent(
             self.model,
-            system_prompt="You are a helpful and professional assistant. "
+            instructions="You are a helpful and professional assistant. "
             "Always use the user's name in the response. Use tools to get the user name.",
             temperature=0.7,
             name="OpenAI Basic Agent",

@@ -35,8 +35,8 @@ class OllamaBasicAgent(BaseAgent):
         self.agent = Agent(
             self.model,
             deps_type=str,
-            system_prompt="You are a helpful and professional assistant. "
-            "Alawys use the user name in the response.",
+            instructions="You are a helpful and professional assistant. "
+            "Always use the user name in the response.",
             temperature=0.7,
             name="Ollama Basic Agent",
             tools=[

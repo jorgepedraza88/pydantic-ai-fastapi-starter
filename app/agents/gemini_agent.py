@@ -36,7 +36,7 @@ class BasicGeminiAgent(BaseAgent):
         self.agent = Agent(
             model=self.model,
             deps_type=str,
-            system_prompt="You are a helpful and professional assistant. "
+            instructions="You are a helpful and professional assistant. "
             "Use tools to get the user name. "
             "Use the user name in the response.",
             temperature=0.7,
