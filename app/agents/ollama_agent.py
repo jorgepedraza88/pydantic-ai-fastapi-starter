@@ -1,10 +1,11 @@
 """Basic Ollama agent"""
 
-from pydantic_ai import Agent
+from pydantic_ai import Agent, RunContext, Tool
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
 
 from app.agents.base_agent import BaseAgent
+from app.tools.common import get_today_date
 
 
 class OllamaBasicAgent(BaseAgent):
@@ -33,7 +34,22 @@ class OllamaBasicAgent(BaseAgent):
 
         self.agent = Agent(
             self.model,
-            system_prompt="You are a helpful and professional assistant.",
+            deps_type=str,
+            system_prompt="You are a helpful and professional assistant. "
+            "Alawys use the user name in the response.",
             temperature=0.7,
             name="Ollama Basic Agent",
+            tools=[
+                Tool(get_today_date, takes_ctx=False),
+                # Note: Ollama struggles to get the user name from the context
+                # Tool(get_user_name, takes_ctx=True),
+            ],
         )
+
+        #  We can add more system prompts using decorators, e.g.:
+        #  This seems to work better than tools with Ollama
+        @self.agent.system_prompt
+        def add_the_users_name(ctx: RunContext[str]) -> str:
+            return f"The user's name is {ctx.deps}."
+
+        _ = add_the_users_name  # <- Remove unused variable warning

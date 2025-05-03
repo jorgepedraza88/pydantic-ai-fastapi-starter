@@ -35,6 +35,10 @@ class AgentRequest(BaseModel):
         default="openai",
         description="Agent to be used for processing the query",
     )
+    deps: Optional[str] = Field(
+        default=None,
+        description="Dependencies for the agent, such as user name",
+    )
 
 
 class AgentResponse(BaseModel):

@@ -25,7 +25,7 @@ class BaseAgent:
         self.agent = None
 
     async def process_query(
-        self, query: str, history: Optional[List[ModelMessage]] = None
+        self, query: str, history: Optional[List[ModelMessage]] = None, deps: str = None
     ) -> AgentResponse:
         """
         Process a query to the agent.
@@ -47,7 +47,7 @@ class BaseAgent:
 
         # Execute the query
         result: AgentRunResult[str] = await self.agent.run(
-            message, message_history=history
+            message, message_history=history, deps=deps
         )
 
         # Get token usage

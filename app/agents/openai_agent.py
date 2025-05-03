@@ -1,11 +1,12 @@
 """Basic OpenAI agent"""
 
-from pydantic_ai import Agent
+from pydantic_ai import Agent, Tool
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
 
 from app.agents.base_agent import BaseAgent
 from app.core.config import settings
+from app.tools.common import get_today_date, get_user_name
 
 
 class OpenAiBasicAgent(BaseAgent):
@@ -34,7 +35,13 @@ class OpenAiBasicAgent(BaseAgent):
 
         self.agent = Agent(
             self.model,
-            system_prompt="You are a helpful and professional assistant.",
+            system_prompt="You are a helpful and professional assistant. "
+            "Always use the user's name in the response. Use tools to get the user name.",
             temperature=0.7,
             name="OpenAI Basic Agent",
+            tools=[
+                Tool(get_today_date, takes_ctx=False),
+                Tool(get_user_name, takes_ctx=True),
+            ],
+            # tools=[get_user_name] - This is a simple example of a tool
         )

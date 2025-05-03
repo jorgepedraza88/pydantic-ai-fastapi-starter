@@ -10,6 +10,8 @@ A FastAPI microservice for AI agent interactions using Pydantic AI. This project
 - 🤖 Multiple AI agent implementations (OpenAI, Google Gemini, Ollama)
 - 📝 Structured requests and responses using Pydantic models
 - 🔄 Support for conversation history
+- 🛠️ Custom tools for enhanced agent capabilities
+- 👤 User context integration through dependencies
 
 ## Installation
 
@@ -68,7 +70,8 @@ Request body:
 {
   "query": "What is artificial intelligence?",
   "history": [], 
-  "llm_provider": "openai"
+  "llm_provider": "openai",
+  "deps": "John"
 }
 ```
 
@@ -76,6 +79,31 @@ Supported LLM providers:
 - `openai`: Uses OpenAI models
 - `gemini`: Uses Google Gemini models
 - `ollama`: Uses local Ollama models
+
+## Tools Integration
+
+The agents in this project are enhanced with custom tools that extend their capabilities:
+
+- **get_today_date**: A tool that provides the agents with the current date
+- **get_user_name**: A context-aware tool that retrieves the user's name from dependencies
+
+These tools can be accessed by the agents through:
+
+1. Direct tool registration:
+```python
+tools=[
+    Tool(get_today_date, takes_ctx=False),
+    Tool(get_user_name, takes_ctx=True),
+]
+```
+
+2. Decorator-based registration (alternative approach):
+```python
+@agent.tool()
+def get_user_name(ctx: RunContext[str]) -> str:
+    """Get the user's name."""
+    return ctx.deps
+```
 
 ## Project Structure
 
@@ -93,6 +121,8 @@ pydantic-ai-microservice/
 │   │   └── config.py
 │   ├── models/
 │   │   └── schemas.py
+│   ├── tools/
+│   │   └── common.py
 │   └── main.py
 ├── .env
 ├── .gitignore

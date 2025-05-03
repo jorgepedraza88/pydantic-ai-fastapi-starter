@@ -1,11 +1,12 @@
 """Basic Gemini Agent"""
 
-from pydantic_ai import Agent
+from pydantic_ai import Agent, Tool
 from pydantic_ai.models.gemini import GeminiModel
 from pydantic_ai.providers.google_gla import GoogleGLAProvider
 
 from app.agents.base_agent import BaseAgent
 from app.core.config import settings
+from app.tools.common import get_today_date, get_user_name
 
 
 class BasicGeminiAgent(BaseAgent):
@@ -34,8 +35,22 @@ class BasicGeminiAgent(BaseAgent):
 
         self.agent = Agent(
             model=self.model,
-            system_prompt="You are a helpful and professional assistant",
+            deps_type=str,
+            system_prompt="You are a helpful and professional assistant. "
+            "Use tools to get the user name. "
+            "Use the user name in the response.",
             temperature=0.7,
             name="Gemini Basic Agent",
-            retries=2,
+            tools=[
+                Tool(get_today_date, takes_ctx=False),
+                Tool(get_user_name, takes_ctx=True),
+            ],
         )
+
+        # We can also add tools using decorators, e.g.:
+        # @self.agent.tool()
+        # def get_user_name(ctx: RunContext[str]) -> str:
+        #     """Get the user's name."""
+        #     return ctx.deps
+
+        # _ = get_user_name  # <- Remove unused variable warning
